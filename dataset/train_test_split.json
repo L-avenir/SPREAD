@@ -1,0 +1,8 @@
+{
+    "train": [
+        "ProcTHOR-Test-196-room|4"
+    ],
+    "val": [
+        "ProcTHOR-Test-196-room|4"
+    ]
+}

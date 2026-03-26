@@ -1,0 +1,59 @@
+data:
+    dataset_type: "cached_point_proc_CAST"
+    encoding_type: "cached_rot6d_Uni3Dfeat_sg2sc"
+    augmentations: []
+    dataset_directory: "./dataset"
+    annotation_file: "configs/bedroom_threed_front_splits.csv"
+    path_to_invalid_scene_ids: "configs/invalid_threed_front_rooms.txt"
+    path_to_invalid_bbox_jids: "configs/black_list.txt"
+    filter_fn: "no_filtering"
+    train_stats: "dataset_stats.txt"
+    max_length: 12
+    geometry_mode: "point"
+
+model:
+    name: "sg2sc_simplemiche_fixed_image_point_cast_diffusion_objfeat_gtf"
+    use_graph: true
+    use_image: false
+    use_point: true
+    use_amp: false
+    beta_schedule: "squaredcos_cap_v2"
+    objfeat_type: "pc"
+    feature_extractor:
+        name: "resnet18"
+        input_channels: 1
+        feature_size: 128
+        freeze_bn: true
+        pretrained: true
+
+training:
+    splits: ["train"]
+    epochs: 200000
+    steps_per_epoch: 500
+    batch_size: 1
+    save_frequency: 50
+    log_frequency: 50
+    optimizer:
+        name: "adamw"
+        lr: 0.0001
+        weight_decay: 0.0001
+        capturable: true
+        fused: false
+        foreach: true
+    loss_weights:
+        pos_mse: 1.
+        size_mse: 1.
+        angle_mse: 1.
+    ema:
+        use_ema: true
+        max_decay: 0.9999
+        min_decay: 0.
+        update_after_step: 0
+        use_warmup: true
+        inv_gamma: 1.
+        power: 0.75
+
+validation:
+    splits: ["val"]
+    batch_size: 1
+    frequency: 50

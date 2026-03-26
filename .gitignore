@@ -1,0 +1,45 @@
+# macOS / system
+.DS_Store
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Native/compiled artifacts
+*.so
+*.dylib
+*.dll
+*.o
+*.a
+*.obj
+
+# Packaging/build outputs
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Test / type checker / linter cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Logs
+*.log
+
+# VS Code local settings
+.vscode/
+
+# Experiment outputs
+outputs/
+runs/
+wandb/
