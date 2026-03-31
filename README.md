@@ -1,6 +1,8 @@
 # SPREAD
 Code for SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion
 
+**CVPR 2026** | [arXiv](https://arxiv.org/abs/2603.27573)
+
 ## Environment Setup
 
 Before running the code, please make sure:
