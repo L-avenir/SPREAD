@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion - Minzhang Li, Kuixiang Shao, Xuebing Li, Yuyang Jiao, Yinuo Bai, Hengan Zhou, Sixian Shen, Jiayuan Gu, Jingyi Yu">
+  <meta name="description" content="SPREAD is a geometry-aware diffusion framework for 3D indoor scene generation that models spatial relations, physical interactions, and simulation-ready physical plausibility.">
+  <meta name="keywords" content="3D scene generation, diffusion model, physical reasoning, spatial reasoning, embodied AI, indoor scene synthesis, geometry-aware diffusion, ProcTHOR, 3D-FRONT">
+  <meta name="author" content="Minzhang Li, Kuixiang Shao, Xuebing Li, Yuyang Jiao, Yinuo Bai, Hengan Zhou, Sixian Shen, Jiayuan Gu, Jingyi Yu">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ShanghaiTech University">
+  <meta property="og:title" content="SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion">
+  <meta property="og:description" content="SPREAD is a geometry-aware diffusion framework for 3D indoor scene generation that models spatial relations, physical interactions, and simulation-ready physical plausibility.">
+  <meta property="og:url" content="./index.html">
+  <meta property="og:image" content="static/images/teaser_cvpr.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="SPREAD teaser image and project preview">
+  <meta property="article:published_time" content="2026-03-31T00:00:00.000Z">
+  <meta property="article:author" content="Minzhang Li">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="3D scene generation">
+  <meta property="article:tag" content="physical reasoning">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion">
+  <meta name="twitter:description" content="Geometry-aware diffusion for generating physically plausible, relation-consistent, simulation-ready 3D indoor scenes.">
+  <meta name="twitter:image" content="static/images/teaser_cvpr.png">
+  <meta name="twitter:image:alt" content="SPREAD teaser image and project preview">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion">
+  <meta name="citation_author" content="Li, Minzhang">
+  <meta name="citation_author" content="Shao, Kuixiang">
+  <meta name="citation_author" content="Li, Xuebing">
+  <meta name="citation_author" content="Jiao, Yuyang">
+  <meta name="citation_author" content="Bai, Yinuo">
+  <meta name="citation_author" content="Zhou, Hengan">
+  <meta name="citation_author" content="Shen, Sixian">
+  <meta name="citation_author" content="Gu, Jiayuan">
+  <meta name="citation_author" content="Yu, Jingyi">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="CVPR 2026">
+  <meta name="citation_pdf_url" content="static/pdfs/spread_arxiv.pdf">
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+  <title>SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion</title>
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/png" href="https://github.githubassets.com/favicons/favicon.png">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/favicons/favicon.png">
+  
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+  
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion",
+    "description": "SPREAD is a geometry-aware diffusion framework for 3D indoor scene generation that models spatial relations, physical interactions, and simulation-ready physical plausibility.",
+    "author": [
+      {"@type": "Person", "name": "Minzhang Li", "affiliation": {"@type": "Organization", "name": "ShanghaiTech University"}},
+      {"@type": "Person", "name": "Kuixiang Shao", "affiliation": {"@type": "Organization", "name": "ShanghaiTech University"}},
+      {"@type": "Person", "name": "Xuebing Li", "affiliation": {"@type": "Organization", "name": "ShanghaiTech University"}},
+      {"@type": "Person", "name": "Yuyang Jiao", "affiliation": {"@type": "Organization", "name": "ShanghaiTech University"}},
+      {"@type": "Person", "name": "Yinuo Bai", "affiliation": {"@type": "Organization", "name": "ShanghaiTech University"}},
+      {"@type": "Person", "name": "Hengan Zhou", "affiliation": {"@type": "Organization", "name": "ShanghaiTech University"}},
+      {"@type": "Person", "name": "Sixian Shen", "affiliation": {"@type": "Organization", "name": "ShanghaiTech University"}},
+      {"@type": "Person", "name": "Jiayuan Gu", "affiliation": {"@type": "Organization", "name": "ShanghaiTech University"}},
+      {"@type": "Person", "name": "Jingyi Yu", "affiliation": {"@type": "Organization", "name": "ShanghaiTech University"}}
+    ],
+    "datePublished": "2026-03-31",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CVPR 2026"
+    },
+    "url": "./index.html",
+    "image": "static/images/teaser_cvpr.png",
+    "keywords": ["3D scene generation", "diffusion model", "physical reasoning", "spatial reasoning", "embodied AI"],
+    "abstract": "Automated 3D scene generation is pivotal for applications spanning virtual reality, digital content creation, and embodied AI. SPREAD jointly learns spatial and physical relationships through a graph transformer while conditioning on posed scene point clouds for geometric awareness, and integrates differentiable guidance for collision avoidance, relational constraint, and gravity to generate simulation-ready environments.",
+    "citation": "@article{li2026spread, title={SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion}, author={Li, Minzhang and Shao, Kuixiang and Li, Xuebing and Jiao, Yuyang and Bai, Yinuo and Zhou, Hengan and Shen, Sixian and Gu, Jiayuan and Yu, Jingyi}, journal={arXiv preprint arXiv:2603.27573}, year={2026}}",
+    "isAccessibleForFree": true,
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "./index.html"
+    },
+    "about": [
+      {"@type": "Thing", "name": "3D scene generation"},
+      {"@type": "Thing", "name": "Embodied AI"}
+    ]
+  }
+  </script>
+  
+  <!-- Website/Organization Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ShanghaiTech University",
+    "url": "https://www.shanghaitech.edu.cn/",
+    "logo": "https://github.githubassets.com/favicons/favicon.png",
+    "sameAs": [
+      "https://github.com/L-avenir/SPREAD"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a>Minzhang Li</a><sup>*</sup>,</span>
+              <span class="author-block">
+                <a>Kuixiang Shao</a><sup>*</sup>,</span>
+              <span class="author-block">
+                <a>Xuebing Li</a></span>
+              <span class="author-block">
+                <a>Yuyang Jiao</a></span>
+              <span class="author-block">
+                <a>Yinuo Bai</a></span>
+              <span class="author-block">
+                <a>Hengan Zhou</a></span>
+              <span class="author-block">
+                <a>Sixian Shen </a></span>
+              <span class="author-block">
+                <a>Jiayuan Gu </a><sup>†</sup></span>
+              <span class="author-block">
+                <a>Jingyi Yu </a><sup>†</sup></span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block">ShanghaiTech University<br>CVPR 2026</span>
+                    <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution, <sup>†</sup>Indicates Corresponding Author</small></span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                      <span class="link-block">
+                        <a href="https://arxiv.org/pdf/2603.27573" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                  <span class="link-block">
+                    <a href="https://github.com/L-avenir/SPREAD" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2603.27573" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser_cvpr.png" alt="Teaser image for SPREAD research">
+      <p class="project-caption teaser-caption">
+        <strong>SPREAD</strong> is a geometry-aware diffusion framework for 3D indoor scene generation. It synthesizes relation-consistent, physically plausible scenes and supports simulation-ready environments for embodied AI.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section hero is-light">
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Automated 3D scene generation is pivotal for applications spanning virtual reality, digital content creation, and Embodied AI. While computer graphics prioritizes aesthetic layouts, vision and robotics demand scenes that mirror realworld complexity which current data-driven methods struggle to achieve due to limited unstructured training data and insufficient spatial and physical modeling. We propose SPREAD, a diffusion-based framework that jointly learns spatial and physical relationships through a graph transformer, explicitly conditioning on posed scene point clouds for geometric awareness. Moreover, our model integrates differentiable guidance for collision avoidance, relational constraint, and gravity, ensuring physically coherent scenes without sacrificing relational context. Our experiments on 3D-FRONT and ProcTHOR datasets demonstrate state-of-the-art performance in spatial-relational reasoning and physical metrics. Moreover, SPREAD outperforms baselines in scene consistency and stability during pre- and post-physics simulation, proving its capability to generate simulation-ready environments for embodied AI agents.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Method</h2>
+        <div class="content has-text-justified">
+          <p>
+            SPREAD is a geometry-aware diffusion framework for generating physically plausible 3D indoor scenes. Each object is represented by its translation, rotation, geometric descriptor, and two structured priors: a spatial relation graph and a physical interaction graph. During denoising, SPREAD uses a graph transformer to jointly reason over object states and relation graphs, while a geometry-aware perceiver injects mesh-level geometric evidence. At inference time, SPREAD further applies a multi-guidance strategy with three differentiable terms: collision guidance to remove mesh interpenetration, gravity guidance to prevent floating and enforce support, and relation guidance to preserve intended support/contact layouts. This combination lets the model generate scenes that are not only visually reasonable, but also structurally stable and simulation-ready.
+          </p>
+        </div>
+        <figure>
+          <img src="static/images/method_final-1.png" alt="Overview of the SPREAD method" loading="lazy">
+          <figcaption class="project-caption">
+            Overview of SPREAD: graph-conditioned diffusion with geometry-aware perceiver features and multi-guidance for collision avoidance, gravity consistency, and relation preservation.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section hero is-light">
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Experiments</h2>
+        <div class="content has-text-justified">
+          <p>
+            We evaluate SPREAD on <strong>3D-FRONT</strong> and <strong>ProcTHOR</strong>, two complementary indoor-scene benchmarks. 3D-FRONT contains designer-curated layouts emphasizing visual realism, while ProcTHOR contains procedurally generated scenes with richer physical interactions and support relations. Following prior work, we augment scenes with structured relative-position annotations and interaction labels to form explicit scene graphs.
+          </p>
+          <p>
+            We compare against three representative baselines: <strong>ATISS</strong> (autoregressive scene synthesis), <strong>DiffuScene</strong> (diffusion-based scene generation), and <strong>InstructScene</strong> (graph-based instruction-driven synthesis). We report both visual quality and physical plausibility using FID, mesh collision rate, Graph Recall (GRecall), Average Support Distance (ASD), and simulation stability measured in NVIDIA Isaac Sim.
+          </p>
+          <img src="static/images/comparison-1.png" alt="Qualitative comparison results before and after physics simulation" loading="lazy">
+          <p class="project-caption">Qualitative comparison before and after simulation.</p>
+          <p>
+            We additionally perform ablations on the geometry-aware perceiver and the multi-guidance module to isolate their effects. The results show that geometry modeling improves physical metrics even before guidance, while the full guidance stack yields the strongest gains in collision reduction, support quality, and simulation robustness.
+          </p>
+          <img src="static/images/guidance_ablation-1.png" alt="Guidance ablation results" loading="lazy">
+          <p class="project-caption">Guidance ablation across collision, gravity, and relation constraints.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Results</h2>
+        <div class="content has-text-justified">
+          <p>
+            We report the main quantitative results from the paper below. Table 1 compares SPREAD against prior methods on 3D-FRONT and ProcTHOR, while Table 2 presents the ablation study on ProcTHOR. Together, these results show that SPREAD substantially improves physical plausibility and relational fidelity, especially on the interaction-rich ProcTHOR benchmark.
+          </p>
+        </div>
+
+        <h3 class="title is-5 mt-5">Table 1. Quantitative comparison</h3>
+        <div class="table-container mb-6">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
+            <thead>
+              <tr>
+                <th rowspan="2">Method</th>
+                <th colspan="4">3D-FRONT</th>
+                <th colspan="5">ProcTHOR</th>
+              </tr>
+              <tr>
+                <th>Col<sub>mesh</sub> ↓<br>Bedroom</th>
+                <th>Col<sub>mesh</sub> ↓<br>Livingroom</th>
+                <th>Col<sub>mesh</sub> ↓<br>Diningroom</th>
+                <th>FID ↓</th>
+                <th>GRecall ↑</th>
+                <th>Col<sub>mesh</sub> ↓</th>
+                <th>ASD ↓</th>
+                <th>Stability ↑</th>
+                <th>FID ↓</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ATISS</td>
+                <td>0.275</td>
+                <td>0.451</td>
+                <td>0.428</td>
+                <td>68.0</td>
+                <td>/</td>
+                <td>0.174</td>
+                <td>0.510</td>
+                <td>0.813</td>
+                <td>33.9</td>
+              </tr>
+              <tr>
+                <td>DiffuScene</td>
+                <td>0.298</td>
+                <td>0.359</td>
+                <td>0.376</td>
+                <td>61.6</td>
+                <td>/</td>
+                <td>0.360</td>
+                <td>0.071</td>
+                <td>0.886</td>
+                <td>21.4</td>
+              </tr>
+              <tr>
+                <td>InstructScene</td>
+                <td>0.285</td>
+                <td>0.350</td>
+                <td>0.331</td>
+                <td><strong>61.3</strong></td>
+                <td>0.964</td>
+                <td>0.260</td>
+                <td>0.021</td>
+                <td>0.876</td>
+                <td>20.0</td>
+              </tr>
+              <tr>
+                <td><strong>Ours</strong></td>
+                <td><strong>0.097</strong></td>
+                <td><strong>0.185</strong></td>
+                <td><strong>0.183</strong></td>
+                <td>64.7</td>
+                <td><strong>0.979</strong></td>
+                <td><strong>0.121</strong></td>
+                <td><strong>0.007</strong></td>
+                <td><strong>0.950</strong></td>
+                <td><strong>18.8</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="title is-5">Table 2. Ablation on ProcTHOR</h3>
+        <div class="table-container mb-6">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>GRecall ↑</th>
+                <th>Col<sub>mesh</sub> ↓</th>
+                <th>ASD ↓</th>
+                <th>Stability ↑</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ours</td>
+                <td>0.963</td>
+                <td>0.241</td>
+                <td>0.014</td>
+                <td>0.934</td>
+              </tr>
+              <tr>
+                <td>+Geometry</td>
+                <td>0.965</td>
+                <td>0.225</td>
+                <td>0.012</td>
+                <td>0.938</td>
+              </tr>
+              <tr>
+                <td><strong>+Guidance</strong></td>
+                <td><strong>0.979</strong></td>
+                <td><strong>0.121</strong></td>
+                <td><strong>0.007</strong></td>
+                <td><strong>0.950</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            Qualitative examples of generated scenes are shown below. These samples highlight SPREAD's ability to arrange diverse indoor objects into plausible, relation-consistent layouts while maintaining rich physical interactions and stable support structure.
+          </p>
+        </div>
+
+        <div id="results-carousel" class="carousel results-carousel mt-5">
+          <div class="item">
+            <img src="static/images/110.png" alt="SPREAD qualitative result 110" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="static/images/136.png" alt="SPREAD qualitative result 136" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="static/images/137.png" alt="SPREAD qualitative result 137" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="static/images/151.png" alt="SPREAD qualitative result 151" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="static/images/158.png" alt="SPREAD qualitative result 158" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="static/images/238.png" alt="SPREAD qualitative result 238" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="static/images/293.png" alt="SPREAD qualitative result 293" loading="lazy">
+          </div>
+          <div class="item">
+            <img src="static/images/299.png" alt="SPREAD qualitative result 299" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@article{li2026spread,
+  title={SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion},
+  author={Li, Minzhang and Shao, Kuixiang and Li, Xuebing and Jiao, Yuyang and Bai, Yinuo and Zhou, Hengan and Shen, Sixian and Gu, Jiayuan and Yu, Jingyi},
+  journal={arXiv preprint arXiv:2603.27573},
+  year={2026},
+  url={https://arxiv.org/abs/2603.27573}
+}</code></pre>
+    </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
