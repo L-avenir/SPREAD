@@ -1,6 +1,7 @@
 # SPREAD
 
 [![arXiv](https://img.shields.io/badge/arXiv-2603.27573-b31b1b.svg)](https://arxiv.org/abs/2603.27573)
+[![CVPR 2026](https://img.shields.io/badge/CVPR-2026%20Accepted-blue)](#)
 
 Code for SPREAD: Spatial-Physical REasoning via geometry Aware Diffusion
 
